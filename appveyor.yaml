@@ -1,0 +1,21 @@
+version: 1.0.{build}
+build_script:
+- cmd: >-
+    cd client
+
+    npm install
+
+    npm run build
+test_script:
+- cmd: npm run test:unit
+artifacts:
+- path: client/dist
+deploy:
+- provider: S3
+  access_key_id: AKIAZ7JVTEWBXKVTBK6C
+  secret_access_key:
+    secure: 9K0V8jf0ClfPYhOt7r5+G1ItOBftKMAIDk4w+IhthLYseaBDHoIv/cIXXLr100CR
+  region: us-west-2
+  bucket: colinmxs.com.github.w-rsvp
+  unzip: true
+  set_public: false
