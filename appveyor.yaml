@@ -1,4 +1,8 @@
 version: 1.0.{build}
+environment:
+  google_signin_secret:
+    secure: BLhTA2k65P4a4agqkd5mI3JN+uRypuVFrJoupCZVxhw=
+  google_client_id: 1056158958261-u9o1s4i9srb3tr6ksqk1jk3o17h358pc.apps.googleusercontent.com
 build_script:
 - cmd: >-
     cd client
