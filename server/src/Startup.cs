@@ -1,3 +1,5 @@
+using Amazon.DynamoDBv2;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +21,10 @@ namespace w_rsvp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors();
+            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonDynamoDB>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -26,6 +32,12 @@ namespace w_rsvp.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(opts => 
+                {
+                    opts.AllowAnyHeader();
+                    opts.AllowAnyMethod();
+                    opts.AllowAnyOrigin();
+                });
             }
             else
             {
