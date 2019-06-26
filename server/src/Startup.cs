@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace w_rsvp.Api
 {
@@ -20,11 +21,24 @@ namespace w_rsvp.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                var config = new AmazonDynamoDBConfig
+                {
+                    ServiceURL = "http://localhost:5155/"
+                };
+
+                services.AddScoped<IAmazonDynamoDB>(sp => new AmazonDynamoDBClient("fake", "fake", config));
+            }
+            else
+            {
+                services.AddAWSService<IAmazonDynamoDB>();
+            }
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonDynamoDB>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
