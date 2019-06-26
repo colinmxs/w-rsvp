@@ -14,11 +14,12 @@ async function login (googleUser) {
     const response = await axios.post('http://localhost:56215/api/account', {
         idToken: idToken
     })
-    console.log(response);
+    console.log(response.data.altId);
   } catch (e) {
     //handle
   }
 
+  profile.altId = response.data.altId;
   localStorage.setItem('currentUser', JSON.stringify(profile))
   localStorage.setItem('id_token', JSON.stringify(idToken))
 }
