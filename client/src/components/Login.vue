@@ -24,14 +24,14 @@ export default {
         client_id: '1056158958261-u9o1s4i9srb3tr6ksqk1jk3o17h358pc.apps.googleusercontent.com'
       }
     }
-    },
-    components: {
-      'g-signin-button' : GoogleSignInButton
-    },
+  },
+  components: {
+    'g-signin-button' : GoogleSignInButton
+  },
   methods: {
-    onSignInSuccess (googleUser) {
-      authenticationService.login(googleUser)
-      this.$router.push({ name: 'user', params: { userId: '123' } })
+    async onSignInSuccess (googleUser) {
+      let userId = await authenticationService.login(googleUser)
+      this.$router.push({ name: 'user', params: { userId: userId } })
     },
     onSignInError (error) {
       // `error` contains any error occurred.
