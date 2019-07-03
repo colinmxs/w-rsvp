@@ -9,19 +9,18 @@ export const authenticationService = {
 async function login (googleUser) {
   const profile = googleUser.getBasicProfile()
   const idToken = googleUser.getAuthResponse().id_token
-
-  try{
-    const response = await axios.post('http://localhost:56215/api/account', {
-        idToken: idToken
-    })
-    console.log(response.data.altId);
-  } catch (e) {
-    //handle
-  }
-
-  profile.altId = response.data.altId;
+  let id = '';
+  
+  const response = await axios.post('http://localhost:56215/api/account', {
+      idToken: idToken
+  })
+  profile.altId = response.data.altId
+  id = response.data.altId
+  
+  
   localStorage.setItem('currentUser', JSON.stringify(profile))
   localStorage.setItem('id_token', JSON.stringify(idToken))
+  return id;
 }
 
 function logout () {
