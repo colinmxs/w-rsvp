@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './components/Login'
 import Home from './components/Home'
+import User from './components/User'
 import App from './App.vue'
 
 Vue.use(VueRouter)
@@ -14,7 +15,8 @@ Vue.config.productionTip = false
 // We'll talk about nested routes later.
 const routes = [
   { path: '', component: Home },
-  { path: '/login', component: Login }
+  { path: '/login', component: Login },
+  { path: '/user/:userId', component: User, name: 'user' }
 ]
 
 // 3. Create the router instance and pass the `routes` option
